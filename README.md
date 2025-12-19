@@ -2,25 +2,25 @@ Secure Voting Application – Node.js
 
 A backend-focused Voting Application built using Node.js, Express, SQLite, and JWT, designed to demonstrate authentication, authorization, data integrity, and secure voting logic.
 
-🚀 Features
+ Features
 
-👤 Voter Registration & Login
+ Voter Registration & Login
 
-🧑‍💼 Candidate Registration & Login
+ Candidate Registration & Login
 
-🔐 JWT-based Authentication
+JWT-based Authentication
 
-🧾 Role-based Authorization (Voter vs Candidate)
+Role-based Authorization (Voter vs Candidate)
 
-🗳️ One Vote per Voter (Strictly Enforced)
+ One Vote per Voter (Strictly Enforced)
 
-📊 Accurate Vote Counting
+ Accurate Vote Counting
 
-🔍 Candidates can view ONLY their own votes
+ Candidates can view ONLY their own votes
 
-🧠 Auditable Vote Mapping (Voter → Candidate)
+ Auditable Vote Mapping (Voter → Candidate)
 
-💾 Persistent SQLite Database
+Persistent SQLite Database
 
 > Tech Stack
 Layer	Technology
@@ -52,7 +52,7 @@ vote_id	Unique vote record
 voter_id	One-to-one mapping (UNIQUE)
 candidate_id	Candidate voted for
 
-📌 This table ensures:
+ This table ensures:
 
 One vote per voter
 
@@ -60,7 +60,7 @@ Exact voter → candidate mapping
 
 Accurate vote counting
 
-🔐 Authentication & Authorization
+Authentication & Authorization
 
 JWT tokens are issued on successful login
 
