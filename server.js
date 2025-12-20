@@ -26,6 +26,18 @@ const authenticate = (req, res, next) => {
   }
 };
 
+// admin 
+
+const authenticateAdmin = (req, res, next) => {
+  authenticate(req, res, () => {
+    if (req.user.role !== "admin")
+      return res.status(403).json({ message: "Admin access only" });
+    next();
+  });
+};
+
+
+
 const authenticateCandidate = (req, res, next) => {
   authenticate(req, res, () => {
     if (req.user.role !== "candidate") {
@@ -52,6 +64,7 @@ app.post("/auth/register", async (req, res) => {
     }
   );
 });
+
 
 app.post("/auth/login", (req, res) => {
   const { email, password } = req.body;
@@ -128,57 +141,39 @@ app.post("/candidates/login", (req, res) => {
 // VOTING (SAFE & ATOMIC)
 
 app.post("/vote/:candidateId", authenticate, (req, res) => {
-  if (req.user.role !== "voter")
+  if (req.user.role !== "voter") {
     return res.status(403).json({ message: "Only voters can vote" });
+  }
 
   const voterId = req.user.voter_id;
   const candidateId = req.params.candidateId;
 
+
   db.get(
-    `SELECT candidate_id FROM candidates WHERE candidate_id = ?`,
-    [candidateId],
-    (err, candidate) => {
-      if (!candidate)
-        return res.status(404).json({ message: "Candidate not found" });
+    "SELECT * FROM votes WHERE voter_id = ?",
+    [voterId],
+    (err, vote) => {
+      if (vote) {
+        return res.status(400).json({ message: "You already voted" });
+      }
 
-      db.get(
-        `SELECT * FROM votes WHERE voter_id = ?`,
-        [voterId],
-        (err, existingVote) => {
-          if (existingVote)
-            return res.status(400).json({ message: "Already voted" });
+      db.run(
+        "INSERT INTO votes (voter_id, candidate_id) VALUES (?, ?)",
+        [voterId, candidateId],
+        () => {
+          
+          db.run(
+            "UPDATE candidates SET votes = votes + 1 WHERE candidate_id = ?",
+            [candidateId]
+          );
 
-          db.serialize(() => {
-            db.run("BEGIN TRANSACTION");
-
-            db.run(
-              `INSERT INTO votes (voter_id, candidate_id)
-               VALUES (?, ?)`,
-              [voterId, candidateId]
-            );
-
-            db.run(
-              `UPDATE candidates
-               SET votes = votes + 1
-               WHERE candidate_id = ?`,
-              [candidateId]
-            );
-
-            db.run(
-              `UPDATE voters
-               SET has_voted = 1
-               WHERE voter_id = ?`,
-              [voterId]
-            );
-
-            db.run("COMMIT");
-            res.json({ message: "Vote cast successfully" });
-          });
+          res.json({ message: "Vote cast successfully" });
         }
       );
     }
   );
 });
+
 
 // VIEW CANDIDATES (VOTERS ONLY)
 
@@ -217,7 +212,23 @@ app.get(
 );
 
 
-// SERVER START
+app.get("/admin/votes", authenticateAdmin, (req, res) => {
+  db.all(
+    `
+    SELECT
+      voters.name AS voter,
+      candidates.name AS candidate
+    FROM votes
+    JOIN voters ON votes.voter_id = voters.voter_id
+    JOIN candidates ON votes.candidate_id = candidates.candidate_id
+    `,
+    [],
+    (err, rows) => res.json(rows)
+  );
+});
+
+
+
 
 app.listen(3000, () =>
   console.log("Server running on http://localhost:3000")

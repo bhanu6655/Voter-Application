@@ -41,18 +41,33 @@ Content-Type: application/json
 
 ####
 GET http://localhost:3000/candidates
-Authorization: Bearer {{voterToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
 
 ####
 POST http://localhost:3000/vote/1
-Authorization: Bearer {{voterToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
 
 
 ####
 POST http://localhost:3000/vote/1
-Authorization: Bearer {{voterToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
 
 
 ####
 GET http://localhost:3000/candidates/me/votes
-Authorization: Bearer {{candidateToken}}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
+
+###
+
+POST http://localhost:3000/admin/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin123"
+}
+
+####
+
+GET http://localhost:3000/admin/votes
+Authorization: Bearer <ADMIN_TOKEN>
