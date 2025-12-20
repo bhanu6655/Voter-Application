@@ -1,98 +1,158 @@
-Secure Voting Application – Node.js
+Secure Voting Application Backend
 
-A backend-focused Voting Application built using Node.js, Express, SQLite, and JWT, designed to demonstrate authentication, authorization, data integrity, and secure voting logic.
+This is a backend-only Voting Application built using Node.js.
+It allows voters to vote securely, candidates to view their results, and admins to audit who voted to whom.
 
- Features
+The project focuses on authentication, authorization, and vote integrity, not just basic CRUD.
 
- Voter Registration & Login
+ What This Application Does
+> Voters
 
- Candidate Registration & Login
+Register and login
 
-JWT-based Authentication
+View available candidates
 
-Role-based Authorization (Voter vs Candidate)
+Vote only once
 
- One Vote per Voter (Strictly Enforced)
+> Candidates
 
- Accurate Vote Counting
+Register and login
 
- Candidates can view ONLY their own votes
+View only their own vote count
 
- Auditable Vote Mapping (Voter → Candidate)
+> Admin
 
-Persistent SQLite Database
+Login securely
+
+View who voted to whom (audit purpose only)
 
 > Tech Stack
-Layer	Technology
-Runtime	Node.js
-Framework	Express.js
-Database	SQLite
-Authentication	JWT (JSON Web Tokens)
-Password Security	bcrypt
-Environment Config	dotenv
-> Database Schema
+
+Tech Stack: Node.js, Express.js, SQLite, bcrypt, JWT, REST API
+
+🗂️ Database Design
 > voters
-Column	Description
-voter_id	Unique voter ID
-name	Voter name
-email	Unique email
-password	Hashed password
-has_voted	Prevents duplicate voting
+
+Stores voter details and voting status.
+
+voter_id
+
+name
+
+email
+
+password (hashed)
+
+has_voted
+
 > candidates
-Column	Description
-candidate_id	Unique candidate ID
-name	Candidate name
-email	Unique email
-party	Political party
-password	Hashed password
-votes	Cached vote count
+
+Stores candidate details and vote count.
+
+candidate_id
+
+name
+
+email
+
+party
+
+password (hashed)
+
+votes
+
 > votes
-Column	Description
-vote_id	Unique vote record
-voter_id	One-to-one mapping (UNIQUE)
-candidate_id	Candidate voted for
 
- This table ensures:
+Maps who voted to whom.
 
-One vote per voter
+vote_id
 
-Exact voter → candidate mapping
+voter_id (UNIQUE – ensures one vote per voter)
 
-Accurate vote counting
+candidate_id
 
-Authentication & Authorization
+> admins
 
-JWT tokens are issued on successful login
+Stores admin credentials.
 
-Tokens are passed via HTTP headers:
+admin_id
 
-Authorization: Bearer <JWT_TOKEN>
+username
 
+password (hashed)
 
-JWT payload contains role information:
+> Authentication & Authorization
 
-{
-  "voter_id": 1,
-  "role": "voter"
-}
+Uses JWT (JSON Web Tokens)
+
+Token is sent in every protected request as:
+
+Authorization: Bearer <TOKEN>
 
 
-or
+Role-based access:
 
-{
-  "candidate_id": 2,
-  "role": "candidate"
-}
+voter
 
-API Endpoints
->Voter APIs
+candidate
+
+admin
+
+> How Voting Works (Simple Explanation)
+
+Voter logs in and gets a JWT token
+
+Voter selects a candidate and votes
+
+The vote is saved in the votes table
+
+The candidate’s vote count increases
+
+The voter cannot vote again
+
+ One vote per voter is enforced
+ Database also prevents duplicate votes
+
+>> API Endpoints
+> Voter APIs
 Method	Endpoint	Description
 POST	/auth/register	Register voter
 POST	/auth/login	Login voter
-POST	/vote/:candidateId	Cast vote (once only)
-GET	/candidates	View all candidates
->Candidate APIs
+GET	/candidates	View candidates
+POST	/vote/:candidateId	Cast vote
+> Candidate APIs
 Method	Endpoint	Description
 POST	/candidates/register	Register candidate
 POST	/candidates/login	Login candidate
 GET	/candidates/me/votes	View own votes
+> Admin APIs
+Method	Endpoint	Description
+POST	/admin/login	Admin login
+GET	/admin/votes	View who voted to whom
+>> How to Run the Project
+> Install dependencies
+npm install
+
+> Create .env file
+JWT_SECRET=voting_secret_key
+
+>> How to Run the Project
+> Install dependencies
+npm install
+
+> Create .env file
+JWT_SECRET=voting_secret_key
+
+> Start server
+node server.js
+
+
+Server will run at:
+
+http://localhost:3000
+
+> API Testing
+
+Tested using Postman or VS Code REST Client (.http file)
+
+JWT token must be included for protected routes
