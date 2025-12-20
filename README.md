@@ -136,10 +136,23 @@ npm install
 > Create .env file
 JWT_SECRET=voting_secret_key
 
-3️⃣ Start server
+>> How to Run the Project
+> Install dependencies
+npm install
+
+> Create .env file
+JWT_SECRET=voting_secret_key
+
+> Start server
 node server.js
 
 
 Server will run at:
 
 http://localhost:3000
+
+> API Testing
+
+Tested using Postman or VS Code REST Client (.http file)
+
+JWT token must be included for protected routes
