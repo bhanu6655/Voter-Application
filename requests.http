@@ -7,7 +7,30 @@ Content-Type: application/json
   "password": "password123"
 }
 
+
 #####
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Prabhas",
+  "email": "prabhas@gmail.com",
+  "password": "prabhas123"
+}
+
+#####
+
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "name": "Baahubali",
+  "email": "baahu@gmail.com",
+  "password": "katappa123"
+}
+
+####
 
 POST http://localhost:3000/auth/login
 Content-Type: application/json
@@ -15,6 +38,26 @@ Content-Type: application/json
 {
   "email": "bhanu@gmail.com",
   "password": "password123"
+}
+
+####
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "prabhas@gmail.com",
+  "password": "prabhas123"
+}
+
+####
+
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "baahu@gmail.com",
+  "password": "katappa123"
 }
 
 ####
@@ -45,19 +88,22 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwic
 
 ####
 POST http://localhost:3000/vote/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6Mywicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MjE0NTI3LCJleHAiOjE3NjYyMTgxMjd9.DdC6eCJKYyydSdIhNw2FoRD2gHrNn-2e42WyJ5tN6Oc
 
 
 ####
 POST http://localhost:3000/vote/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6Miwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MjE0MzY0LCJleHAiOjE3NjYyMTc5NjR9.nlbYiu-60g-1kn4CjkMzvfIychP8_UUBR5Ar0S9bJEQ
 
 
 ####
 GET http://localhost:3000/candidates/me/votes
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ2b3Rlcl9pZCI6MSwicm9sZSI6InZvdGVyIiwiaWF0IjoxNzY2MTQzMTM5LCJleHAiOjE3NjYxNDY3Mzl9.Zb--TZHsmGp6JoSQmvO-fVqpIf9m-a3kZy4eFjlB3Xw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjYW5kaWRhdGVfaWQiOjEsInJvbGUiOiJjYW5kaWRhdGUiLCJpYXQiOjE3NjYyMTQ0MDgsImV4cCI6MTc2NjIxODAwOH0.DNZPIMUlPu8QECQjtIRn4HuMH4uwJVDuHIWI6NlgseE
 
 ###
+
+
+
 
 POST http://localhost:3000/admin/login
 Content-Type: application/json
@@ -70,4 +116,5 @@ Content-Type: application/json
 ####
 
 GET http://localhost:3000/admin/votes
-Authorization: Bearer <ADMIN_TOKEN>
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzY2MjE0Nzk1LCJleHAiOjE3NjYyMTgzOTV9.D199V3JcEmJLbZk-A9NXMQKCnxZbU28cOZ2Y2PipahE
+

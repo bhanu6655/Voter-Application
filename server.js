@@ -28,6 +28,39 @@ const authenticate = (req, res, next) => {
 
 // admin 
 
+app.post("/admin/login", (req, res) => {
+  const { username, password } = req.body;
+
+  db.get(
+    "SELECT * FROM admins WHERE username = ?",
+    [username],
+    async (err, admin) => {
+      if (err) {
+        return res.status(500).json({ message: "Database error" });
+      }
+
+      if (!admin) {
+        return res.status(401).json({ message: "Invalid admin credentials" });
+      }
+
+      const isMatch = await bcrypt.compare(password, admin.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: "Invalid admin credentials" });
+      }
+
+      const token = jwt.sign(
+        { admin_id: admin.admin_id, role: "admin" },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+
+      return res.json({ token });
+    }
+  );
+});
+
+//
+
 const authenticateAdmin = (req, res, next) => {
   authenticate(req, res, () => {
     if (req.user.role !== "admin")
@@ -212,7 +245,7 @@ app.get(
 );
 
 
-<<<<<<< HEAD
+
 app.get("/admin/votes", authenticateAdmin, (req, res) => {
   db.all(
     `
@@ -230,9 +263,9 @@ app.get("/admin/votes", authenticateAdmin, (req, res) => {
 
 
 
-=======
+
 // SERVER START
->>>>>>> 26179abc58595151b8186a2745c7ed89939104a6
+
 
 app.listen(3000, () =>
   console.log("Server running on http://localhost:3000")
